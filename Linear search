@@ -1,0 +1,16 @@
+clear
+echo "How many value you have:"
+read n
+for((i=0;i<n;i++))
+do
+read a[$i]
+done
+echo "Enter search item:"
+read item
+for((i=0;i<n;i++))
+do
+if [ $item -eq ${a[$i]} ]
+then
+echo "item found in index number : $i"
+fi
+done
