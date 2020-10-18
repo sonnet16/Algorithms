@@ -1,0 +1,81 @@
+#! /bin/bash
+
+echo "How many process you want to give: "
+read n
+echo "Enter $n Arrival Time: "
+for ((i=1;i<=$n;i++))
+do
+read at[i]
+done
+echo "Enter $n Burst Time: "
+for ((i=1;i<=$n;i++))
+do
+read bt[i]
+done
+#bubble sort for arrival time
+for((c=1;c<=$n;c++))
+do
+for((d=1;d<=$n-$c;d++))
+do
+if [ ${at[$d]} > ${at[$d+1]} ]
+then
+swap=${at[$d]}
+at[d]=${at[$d+1]}
+at[d+1]=$swap
+fi
+done
+done
+ct[1]=${at[1]}
+twt=0
+j=1
+for ((i=1;i<=$n;i++))
+do
+ct[i]=`expr ${ct[$j]} + ${bt[$i]}`
+tat[i]=`expr ${ct[$i]} - ${at[$i]}`
+wt[i]=`expr ${tat[$i]} - ${bt[$i]}`
+twt=`expr $twt + ${wt[$i]}`
+j=$i
+#bubble Sort
+for((c=0;c<=$n-1;c++))
+do
+for((d=2;d<=$n-$c-1;d++))
+do
+if [ ${bt[$d]} > ${bt[$d+1]} ]
+then
+swap=${bt[$d]}
+bt[d]=${bt[$d+1]}
+bt[d+1]=$swap
+fi
+done
+done
+done
+echo "AT: "
+for((i=1;i<=n;i++))
+do
+echo "${at[$i]}"
+done
+echo "BT: "
+for((i=1;i<=n;i++))
+do
+echo "${bt[$i]}"
+done
+echo "CT: "
+for((i=1;i<=n;i++))
+do
+echo "${ct[$i]}"
+done
+echo "TAT: "
+for((i=1;i<=n;i++))
+do
+echo "${tat[$i]}"
+done
+echo "WT: "
+for((i=1;i<=n;i++))
+do
+echo "${wt[$i]}"
+done
+
+echo "Average waiting time:"
+#avgwt=`expr $twt / $n`
+
+echo "scale=3;$twt/$n" | bc
